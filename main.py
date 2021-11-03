@@ -16,19 +16,18 @@ def getProductNames():
     soup = BeautifulSoup(page.content, "html.parser")
     items = soup.select('a[data-testid="product__item"]')
     for item in items:
-        products.append(item['href'][9:])
+        if len(item.select('div[data-testid="product__sold"]')) == 0:
+            products.append(item['href'][9:])
     return products
 
 productPages = getProductNames()
 
 def getLoginCookies():
     with open("cookies.data", "r") as a_file:
-        driver.get(depopURL + '/products/deit' + productPages[1])
+        driver.get(depopURL + '/products/deit' + productPages[0])
         for line in a_file:
             stripped_line = line.strip()
             cookie = stripped_line.split(" ", 1)
-            print("cookies in line:")
-            print("name: ", cookie[0], "val: ", cookie[1])
             driver.add_cookie({"name" : cookie[0], "value" : cookie[1], "path" : "/", "domain": ".depop.com"})
 
 getLoginCookies()

@@ -20,16 +20,27 @@ def getProductNames():
             products.append(item['href'][9:])
     return products
 
-productPages = getProductNames()
-
-def getLoginCookies():
-    with open("cookies.data", "r") as a_file:
-        driver.get(depopURL + '/products/deit' + productPages[0])
+def getLoginCookies(page):
+    with open("creds" + user + "/cookies.data", "r") as a_file:
+        driver.get(depopURL + '/products/deit' + page)
         for line in a_file:
             stripped_line = line.strip()
             cookie = stripped_line.split(" ", 1)
             driver.add_cookie({"name" : cookie[0], "value" : cookie[1], "path" : "/", "domain": ".depop.com"})
 
-getLoginCookies()
-driver.get(depopURL + '/products/edit' + productPages[0])
-driver.page_source.encode("utf-8")
+getLoginCookies(getProductNames()[0])
+
+def refreshItem(item):
+    driver.get(depopURL + '/products/edit' + item)
+
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    saveButton = driver.find_element_by_xpath('//button[text()="Save changes"]')
+    saveButton.click()
+
+def refreshAll():
+    # Refresh Items
+    for product in getProductNames():
+        refreshItem(product)
+    driver.close()
+
+refreshAll()

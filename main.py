@@ -3,12 +3,16 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
 
 depopURL = "https://www.depop.com"
 user = "/harrywmo"
 page = requests.get(depopURL + user)
 
-driver = webdriver.Chrome('./chromedriver')
+s=Service(ChromeDriverManager().install())
+driver = webdriver.Chrome(service=s)
 
 # Scrape individual items
 def getProductNames():

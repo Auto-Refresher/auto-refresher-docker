@@ -1,0 +1,17 @@
+version: "3.9"
+services: 
+  'chrome':
+    image: selenium/standalone-chrome
+    container_name: web-chrome
+    volumes:
+      - /dev/shm:/dev/shm
+    ports:
+      - "4444:4444"
+      - "7900:7900"
+    links:
+      - 'refresher'
+  'refresher':
+    image: auto-depop
+    build:
+      context: .
+      dockerfile: Dockerfile

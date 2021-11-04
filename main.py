@@ -25,7 +25,6 @@ def establishDriverConnection():
     print("Connected to Webdriver")
     return driver
        
-        
 #driver = webdriver.Chrome(service=s)
 driver = establishDriverConnection()
 print("Using " + driver.name)
@@ -53,7 +52,6 @@ getLoginCookies(getProductNames()[0])
 def refreshItem(item):
 
     print("Refreshing Item: " + item)
-
     driver.get(depopURL + '/products/edit' + item)
 
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")

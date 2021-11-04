@@ -13,9 +13,21 @@ print("Refreshing for: " + user)
 
 driverURL = "http://web-chrome:4444"
 
+def establishDriverConnection():
+    while True:
+        try:
+            print("Attempting to establish Driver connection: ", driverURL)
+            driver = webdriver.Remote(command_executor = driverURL)
+        except:
+            continue
+        else:
+          break
+    print("Connected to Webdriver")
+    return driver
+       
+        
 #driver = webdriver.Chrome(service=s)
-print("Driver URL: " + driverURL)
-driver = webdriver.Remote(command_executor = driverURL)
+driver = establishDriverConnection()
 print("Using " + driver.name)
 
 # Scrape individual items

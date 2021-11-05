@@ -12,7 +12,7 @@ jobs:
 
     steps:
     - name: checkout
-      uses: actions/checkoiut@v2
+      uses: actions/checkout@v2
 
     - name: aws creds
       uses: aws-actions/configure-aws-credentials@v1

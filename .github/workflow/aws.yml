@@ -7,4 +7,32 @@ name: Build refresh Docker Image
 jobs:
   deploy:
     name: deploy
-    
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout
+      uses: actions/checkoiut@v2
+
+    - name: aws creds
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-2
+
+    - name: login ecr
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: build, tag, push
+      id: build-image
+      env: 
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ secrets.REPO_NAME }}
+        IMAGE_TAG: 1.0
+      run: |
+        # Build tag deploy
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        echo "Pushing... "
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"

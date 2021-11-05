@@ -1,0 +1,10 @@
+on:
+  push:
+    branches: [ master ]
+
+name: Build refresh Docker Image
+
+jobs:
+  deploy:
+    name: deploy
+    

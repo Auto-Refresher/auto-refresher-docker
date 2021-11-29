@@ -13,6 +13,9 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v2
+      with:
+        repository: harrywm/auto-refresher-code
+        token: ${{ secrets.CODE_ACCESS_TOKEN }}
 
     - name: aws creds
       uses: aws-actions/configure-aws-credentials@v1
